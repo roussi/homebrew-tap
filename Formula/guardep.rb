@@ -9,9 +9,9 @@ class Guardep < Formula
       url "https://github.com/roussi/guardep/releases/download/v0.1.0/guardep-0.1.0-aarch64-apple-darwin.tar.gz"
       sha256 "6f3ba2423abaf3d60af1ec922c9b08fb5ded86d38f79f4ca4b5d3d6187f2a28c"
     end
-    # Intel macOS not shipped in this release; users on
-    # Rosetta 2 can build from source, native support
-    # returns once GitHub-hosted Intel runners stabilise.
+    # Intel macOS not shipped in this release; users on Rosetta 2
+    # transparently run the aarch64 binary. Native support returns
+    # once GitHub-hosted Intel runners stabilise.
   end
 
   on_linux do
@@ -26,10 +26,12 @@ class Guardep < Formula
   end
 
   def install
-    # Each tarball contains a single top-level
-    #  binary; lift it onto
-    # PATH as plain .
-    bin.install Dir["guardep-*-*/guardep"].first => "guardep"
+    target = if OS.mac?
+      Hardware::CPU.arm? ? "aarch64-apple-darwin" : "x86_64-apple-darwin"
+    else
+      Hardware::CPU.arm? ? "aarch64-unknown-linux-gnu" : "x86_64-unknown-linux-gnu"
+    end
+    bin.install "guardep-#{version}-#{target}/guardep"
   end
 
   def caveats
