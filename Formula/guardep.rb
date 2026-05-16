@@ -9,9 +9,10 @@ class Guardep < Formula
       url "https://github.com/roussi/guardep/releases/download/v0.1.0/guardep-0.1.0-aarch64-apple-darwin.tar.gz"
       sha256 "6f3ba2423abaf3d60af1ec922c9b08fb5ded86d38f79f4ca4b5d3d6187f2a28c"
     end
-    # Intel macOS not shipped in this release; users on Rosetta 2
-    # transparently run the aarch64 binary. Native support returns
-    # once GitHub-hosted Intel runners stabilise.
+    on_intel do
+      url "https://github.com/roussi/guardep/releases/download/v0.1.0/guardep-0.1.0-x86_64-apple-darwin.tar.gz"
+      sha256 "6bbff3b0a5bc2ff92b97d63f3c85761c677f7bf8eb51df7256f0b057cfeb0264"
+    end
   end
 
   on_linux do
