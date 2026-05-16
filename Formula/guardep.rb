@@ -26,12 +26,10 @@ class Guardep < Formula
   end
 
   def install
-    target = if OS.mac?
-      Hardware::CPU.arm? ? "aarch64-apple-darwin" : "x86_64-apple-darwin"
-    else
-      Hardware::CPU.arm? ? "aarch64-unknown-linux-gnu" : "x86_64-unknown-linux-gnu"
-    end
-    bin.install "guardep-#{version}-#{target}/guardep"
+    # Homebrew strips the top-level `guardep-<ver>-<target>/` dir
+    # because it starts with the formula name. Binary lands at the
+    # buildpath root.
+    bin.install "guardep"
   end
 
   def caveats
